@@ -1,0 +1,42 @@
+﻿@using BlazorComponents.Components.Classes
+﻿@using System.Reflection
+@typeparam TItem
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            @foreach (var column in Columns)
+            {
+                <th>@column.Title</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @if (Data != null)
+        {
+            @foreach (var item in Data)
+            {
+                Type objectType = item.GetType();
+                PropertyInfo[] properties = objectType.GetProperties();
+
+                <tr>
+                    @foreach (var singleProp in properties)
+                    {
+                        <td>@singleProp.GetValue(item)</td>
+                    }
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="@Columns.Count">No data available</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter] public List<TItem> Data { get; set; } = new List<TItem>();
+    [Parameter] public List<ColumnsList> Columns { get; set; } = new List<ColumnsList>();
+}

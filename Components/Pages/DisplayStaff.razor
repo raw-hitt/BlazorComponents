@@ -1,0 +1,23 @@
+﻿@page "/staff"
+@using BlazorComponents.Components.Classes
+@using BlazorComponents.Models
+@using BlazorComponents.Services
+
+<h3>Staff</h3>
+
+<DataGrid Data="staffList" Columns="cols" />
+
+
+@code {
+
+    public List<Staff> staffList { get; set; }
+    public List<ColumnsList> cols { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        StaffService stf = new StaffService();
+        staffList = stf.GetStaff();
+        cols = stf.GetStaffHeaders();
+    }
+
+}
